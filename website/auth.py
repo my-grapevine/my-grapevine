@@ -1,0 +1,1 @@
+# Stores the authentication methods and routes

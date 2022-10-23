@@ -1,0 +1,64 @@
+body{
+background-color: #a517ba;
+color: white;
+font-family: sans-serif;
+font-weight: medium;
+font-size:
+}
+.navbar
+{
+
+background-image: linear-gradient(to right, #a517ba, #5f1782);
+padding: 0 !important;
+}
+.navbar-nav li a
+{
+color: #fff !important;
+}
+.navbar-brand
+{
+color: #fff !important;
+text-align: center;
+}
+.card-body{
+background-color: #a517ba;
+}
+
+.button{
+background-color: #5f1782;
+}
+footer{
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+}
+
+.footer-content{
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+text-align: center;
+}
+.footer-content h3{
+font-size:1rem;
+font-weight: 400;
+text-transform: capitalize;
+line-height: 1px;
+}
+.footer-content p{
+max-width: 350px;
+margin: 8px auto;
+line-height: 1px;
+}
+.footer-bottom{
+width: 100vw;
+padding: 10px 0;
+text-align:center;
+}
+.footer-bottom p{
+font-size: 12px;
+word-spacing: 2px;
+text-transform: capitalize;
+}

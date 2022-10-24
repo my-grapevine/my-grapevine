@@ -1,5 +1,3 @@
-#This will store the main views or the URL endpoints for our website
-
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from .create_db import Note
@@ -9,9 +7,14 @@ import json
 views = Blueprint('views', __name__)
 
 
-@views.route('/', methods=['GET', 'POST'])
-@login_required
+@views.route('/')
 def home():
+    return render_template("home.html", user=current_user)
+
+
+@views.route('/notes', methods=['GET', 'POST'])
+@login_required
+def notes():
     if request.method == 'POST':
         note = request.form.get('note')
 
@@ -23,7 +26,7 @@ def home():
             db.session.commit()
             flash('Note added!', category='success')
 
-    return render_template("home.html", user=current_user)
+    return render_template("notes.html", user=current_user)
 
 
 @views.route('/delete-note', methods=['POST'])

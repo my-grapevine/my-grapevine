@@ -1,5 +1,3 @@
-# We are using this file to sort out the database
-
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
@@ -8,7 +6,8 @@ from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
-class Note(db.Model,Base):
+
+class Note(db.Model, Base):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(10000))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
@@ -22,7 +21,8 @@ class User(db.Model, UserMixin, Base):
     first_name = db.Column(db.String(150))
     notes = db.relationship('Note')
 
-class UserEvent(db.Model,Base):
+
+class UserEvent(db.Model, Base):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(10000))
     date = db.Column(db.DateTime(timezone=True), default=func.now())

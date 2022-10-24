@@ -1,4 +1,3 @@
-# Stores the authentication methods and routes
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .create_db import User
 from werkzeug.security import generate_password_hash, check_password_hash

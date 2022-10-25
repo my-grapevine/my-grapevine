@@ -7,8 +7,8 @@ def get_db_connection():
         host='localhost',
         user=os.environ.get("DB_USERNAME"),
         password=os.environ.get("DB_PASSWORD"),
-        auth_plugin="mysql_native_password",
-)
+    )
+
 
 with get_db_connection() as connection:
 

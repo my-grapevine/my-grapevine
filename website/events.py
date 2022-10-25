@@ -3,7 +3,7 @@
 # API can be changed for UK's events
 import requests as req
 
-response = req.get('https://app.ticketmaster.com/discovery/v2/events.json?countryCode=GB&apikey=EONIBa1etvf9rGHGYUPOnHGSfByU0y8S&size=100')
+response = req.get('https://app.ticketmaster.com/discovery/v2/events.json?countryCode=GB&apikey={'API KEY'}&size=100')
 data = response.json()
 
 def get_event_details():
@@ -97,7 +97,7 @@ def search():
 #API used here is UK API
 def _generate_ticketmaster_url(artist):
     modified_artist = artist.replace(' ','%20')
-    ticketmaster_key = "EONIBa1etvf9rGHGYUPOnHGSfByU0y8S"
+    ticketmaster_key = "{API KEY}"
     return f"https://app.ticketmaster.com/discovery/v2/events.json?keyword={ modified_artist }&countryCode=GB&apikey={ ticketmaster_key}&size=120"
 
 #a = search()

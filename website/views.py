@@ -12,6 +12,21 @@ def home():
     return render_template("home.html", user=current_user)
 
 
+@views.route('/events')
+def events():
+    return render_template("events.html", user=current_user)
+
+
+@views.route('/event/<event_id>')
+def event(event_id):
+    return render_template("event.html", user=current_user)
+
+
+@views.route('/search')
+def search():
+    return render_template("search.html", user=current_user)
+
+
 @views.route('/notes', methods=['GET', 'POST'])
 @login_required
 def notes():

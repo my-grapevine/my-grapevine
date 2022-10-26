@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block title %}Events{% endblock %}
+{% block content%}
+    <h1 class="text-center">Current Event</h1>
+    <section class="container">
+        <div class="card mx-auto my-5 text-center" style="max-width: 270px; height:400px">
+            <div class="card-body">
+                <h2 class="display-3">Title</h2>
+                <div class="card-image"><img src="{{ url_for('static', filename='images/concert.jpg') }}" class="d-block w-100" alt="Concert">
+                    <p class="lead">Event info here/ venue.</p>
+                    <a role="button" href="#" class="btn btn-primary">Book Tickets</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

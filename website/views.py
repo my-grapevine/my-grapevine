@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from .create_db import Note
 from . import db
+from .api.events import get_events
 import json
 
 views = Blueprint('views', __name__)
@@ -14,7 +15,8 @@ def home():
 
 @views.route('/events')
 def events():
-    return render_template("events.html", user=current_user)
+    event_details = get_events()
+    return render_template("events.html", user=current_user, event_details=event_details)
 
 
 @views.route('/event/<event_id>')

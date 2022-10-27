@@ -7,8 +7,8 @@
                 <div class="card-body">
                     <h2>{{ event.name }}</h2>
                     <div class="card-image"><img src="{{ event.image_url }}" class="d-block w-100" alt="Concert">
-                        <p class="lead">Event info here/ venue.</p>
-                        <a role="button" href="{{ url_for('views.event', event_id=1 ) }}" class="btn btn-primary">More info</a>
+                        <p class="lead">{{ event.city }}</p>
+                        <a role="button" href="{{ url_for('views.event', event_id=event.id ) }}" class="btn btn-primary">More info</a>
                     </div>
                 </div>
             </div>

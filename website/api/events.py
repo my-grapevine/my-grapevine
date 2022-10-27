@@ -16,7 +16,7 @@ def get_events():
     data = []
     for page_number in range(1, 3):
         try:
-            response = requests.get(f"https://app.ticketmaster.com/discovery/v2/events.json?countryCode=GB&apikey=EONIBa1etvf9rGHGYUPOnHGSfByU0y8S&endDateTime={next_month}&size=200&page={page_number}")
+            response = requests.get(f"https://app.ticketmaster.com/discovery/v2/events?countryCode=GB&apikey=EONIBa1etvf9rGHGYUPOnHGSfByU0y8S&endDateTime={next_month}&size=200&page={page_number}")
             data.extend(response.json()['_embedded']['events'])
         except (KeyError, requests.exceptions.RequestException):
             break
@@ -27,12 +27,38 @@ def get_events():
         is_duplicate = any(image['url'] in image_urls for image in event['images'])
         if not is_duplicate:
             events.append({
+                'id': event['id'],
                 'name': event['name'],
-                'image_url': event['images'][0]['url']
+                'image_url': event['images'][0]['url'],
+                'city': event['_embedded']['venues'][0]['city']['name']
             })
             [image_urls.add(image['url']) for image in event['images']]
 
     return events[:24]
+
+
+def get_event_by_id(event_id):
+    try:
+        response = requests.get(
+            f"https://app.ticketmaster.com/discovery/v2/events/{event_id}?apikey=EONIBa1etvf9rGHGYUPOnHGSfByU0y8S")
+        event = response.json()
+        return {
+            'id': event['id'],
+            'name': event['name'],
+            'image_url': event['images'][0]['url'],
+            'city': event['_embedded']['venues'][0]['city']['name'],
+            'dates': event['dates']['start']['localDate'],
+            'venues': event['_embedded']['venues'][0]['name'],
+            'classification': event['classifications'][0]['genre']['name'],
+            'url': event['_embedded']['venues'][0]['url']
+        }
+    except (KeyError, requests.exceptions.RequestException):
+        return
+
+
+get_event_by_id('G5dFZ9kR2F7sh')
+
+
 
 
 def get_event_details():

@@ -19,13 +19,19 @@
           <ul class="navbar-nav me-auto mb-2 mb-sm-0">
             <li class="nav-item"><a class="nav-link" href="{{ url_for('views.home') }}">Home</a></li>
             {% if user.is_authenticated %}
-              <li class="nav-item"><a class="nav-link" href="events">Events</a></li>
-              <li class="nav-item"><a class="nav-link" href="tickets">Tickets</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('views.events') }}">Events</a></li>
+              <li class="nav-item"><a class="nav-link" href="search">Search</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('views.add_note') }}">Add Notes</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('views.notes') }}">Notes</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
             {% else %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.sign_up') }}">Sign Up</a></li>
             {% endif %}
+            {% if current_user.id == 1 %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('views.admin') }}">Admin</a></li>
+            {% endif %}
+
           </ul>
         </div>
       </div>
@@ -54,7 +60,7 @@
     </div>
     <footer class="d-flex flex-column justify-content-center align-items-center fixed-bottom text-center bg-success p-2 text-white">
       <h5 class="mb-0">Grapevine Events</h5>
-      <small style="opacity: 0.55;">Copyright &copy; 2022 Grapevine, designed by Mihaela, Mutiyat, Divya and Neneh</small>
+      <small style="opacity: 0.55;">Copyright &copy; 2022 Grapevine, designed by Mutiyat, Divya, Neneh and Mihaela</small>
     </footer>
     <script src="{{ url_for('static', filename='bootstrap.js') }}"></script>
   </body>

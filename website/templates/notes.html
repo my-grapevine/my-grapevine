@@ -1,21 +1,29 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
-<h1 align="center">Notes</h1>
+{% extends "base.html" %} {% block title %}Notes{% endblock %}
+{% block content%}
+<h1 align="center"> Hello {{user.first_name.title()}}, let's see our users thoughts</h1>
 <ul class="list-group list-group-flush" id="notes">
-  {% for note in user.notes %}
+  {% for note in notes %}
   <li class="list-group-item">
-    {{ note.data }}
-    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <h4>Title: {{ note.title }}</h4>
+    <br>
+    By: {{ note.first_name}}
+    <br>
+    <br>
+    Message: {{ note.content }}
+    <br>
+    At: {{ note.date }}
+    <br>
   </li>
   {% endfor %}
 </ul>
-<form method="POST">
+<br>
+<br>
+
+<!--<form method="POST">
   <textarea name="note" id="note" class="form-control"></textarea>
   <br />
   <div align="center">
     <button type="submit" class="btn btn-primary">Add Note</button>
   </div>
-</form>
+</form>-->
 {% endblock %}

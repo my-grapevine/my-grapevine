@@ -26,9 +26,11 @@ def create_app():
 
     from .views import views
     from .auth import auth
+    from .api.events import events
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(events,url_prefix='/')
 
     @login_manager.user_loader
     def load_user(id):
@@ -39,4 +41,4 @@ def create_app():
 
 def create_database():
     get_db_connection()
-    print('The database has been successfully created')
+    print('The database is open')

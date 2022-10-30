@@ -1,14 +1,14 @@
 {% extends "base.html" %} {% block title %}Events{% endblock %}
 {% block content%}
 
-<form class="d-flex" role="search" method = "POST">
+<form class="d-flex" role="search" method = "GET">
            <input class="form-control me-2" type="text" name="query" placeholder="Search for Events or Venue" aria-label="Search">
         <button class="btn btn-outline-primary" type="submit" name="submit" value="search">Search</button>
        </form>
 
     <h1 class="text-center">Your results</h1>
     <section class="container d-flex flex-wrap justify-content-center">
-
+    {% if event_data is not none %}
         {% for event in event_data %}
             <div class="card mx-auto m-3 text-center" style="max-width: 90%; width: 300px;">
                 <div class="card-body">
@@ -22,6 +22,9 @@
                 </div>
             </div>
         {% endfor %}
-
+        {% if event_data|length == 0 %}
+            <p class="lead text-center">No results found</p>
+        {% endif %}
+    {% endif %}
     </section>
 {% endblock %}

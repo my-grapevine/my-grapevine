@@ -1,14 +1,9 @@
 import os
-# THROWS ERROR WHEN DATA BEYOND SIZE OF PAGE IS SEARCHED, NEED TO USE EXCEPTIONAL HANDLING
-# API can be changed for UK's events
 import requests as req
-import json
-response = req.get(f'https://app.ticketmaster.com/discovery/v2/events.json?countryCode=GB&apikey={os.environ.get("API_KEY")}&size=100')
-data = response.json()
 
 import requests
 from datetime import datetime, timedelta
-from flask import Blueprint, request                                           #Mi
+from flask import Blueprint                                     #Mi
 
 events = Blueprint('events', __name__)                                         #Mi
 
@@ -52,118 +47,30 @@ def get_event_by_id(event_id):
             'dates': event['dates']['start']['localDate'],
             'venues': event['_embedded']['venues'][0]['name'],
             'classification': event['classifications'][0]['genre']['name'],
-            'url': event['_embedded']['venues'][0]['url']
+            'url': event['url']
         }
     except (KeyError, requests.exceptions.RequestException):
         return
 
 
-get_event_by_id('G5dFZ9kR2F7sh')
-
-def get_event_details():
+def search(query):
     event_data = []
-    for event in data['_embedded']['events']:
-        event_id = event['id']
-        event_name = event['name']
-        address = event['_embedded']['venues'][0]['address']['line1']
-        venue = event['_embedded']['venues'][0]['name']
-        city = event['_embedded']['venues'][0]['city']['name']
-        postal_code = event['_embedded']['venues'][0]['postalCode']
-        country = event['_embedded']['venues'][0]['country']['name']
-        image = event['images'][0]['url']
-        date_event = event['dates']['start']['localDate']
+    try:
+        response = req.get(
+            f"https://app.ticketmaster.com/discovery/v2/events?keyword={query}&countryCode=GB&apikey={os.environ.get('API_KEY')}&size=24")
+        events = response.json()['_embedded']['events']
+    except (KeyError, requests.exceptions.RequestException):
+        events = []
 
-        classification_name = event['classifications'][0]['segment']['name']
-
-        classification_genre_name = event['classifications'][0]['genre']['name']
-
-
-        if "info" in event:
-            event_info = event['info']
-        else:
-            continue
-        currency = event['priceRanges'][0]['currency']
-        price_range_min = event['priceRanges'][0]['min']
-        price_range_max = event['priceRanges'][0]['max']
-
+    for event in events:
         new_event = {
-            "event_id": event_id,
-            # "venue": venue,
-            "name": event_name,
-            "location": f"{address}, {venue}, {city}, {postal_code}, {country}",
-            "image": image,
-            "date_event": date_event,
-
-            "classification_name": classification_name,
-
-            "classification_genre_name": classification_genre_name,
-
-            "info": event_info,
-            "currency": currency,
-            "price_range_min": price_range_min,
-            "price_range_max": price_range_max,
-
+            'id': event['id'],
+            'name': event['name'],
+            'date_event': event['dates']['start']['localDate'],
+            'venue': event['_embedded']['venues'][0]['name'],
+            'city': event['_embedded']['venues'][0]['city']['name'],
+            'url': event['_embedded']['venues'][0]['url'],
+            'image_url': event['images'][0]['url']
         }
         event_data.append(new_event)
     return event_data
-
-def get_attraction_details():
-    attraction_data = []
-    for event in data['_embedded']['events']:
-        #attraction_id = event['_embedded']['attractions'][0]['id']
-        attraction_name = event['_embedded']['attractions'][0]['name']
-        attraction_images = event['_embedded']['attractions'][0]['images'][0]['url']
-        classification_category = event['_embedded']['attractions'][0]['classifications'][0]['segment']['name']
-        upcoming_events = event['_embedded']['attractions'][0]['upcomingEvents']['_total']
-
-        new_attraction = {
-           # "attraction_id": attraction_id,
-            "attraction_name": attraction_name,
-            "attraction_images": attraction_images,
-            "classification_category": classification_category,
-            "upcoming_events": upcoming_events,
-           # "attraction_fb_url": attraction_fb_url,
-           # "attraction_instagram_url": attraction_instagram_url
-        }
-
-        attraction_data.append(new_attraction)
-    return attraction_data
-
-
-def search(): #Mi
-
-    event_data = []
-    if request.method == 'POST':
-        event_search = request.form.get('query')
-        ticketmaster_key = {os.environ.get('API_KEY')}
-        response = req.get(
-            f"https://app.ticketmaster.com/discovery/v2/events.json?keyword={event_search}&countryCode=GB&apikey={ticketmaster_key}&size=10")
-        data = response.json()
-
-        if data['page']['totalElements'] == 0:
-            print('No results found!')
-
-        else:
-            for event in data['_embedded']['events']:
-                new_event = {
-                    'id': event['id'],
-                    'name': event['name'],
-                    'date_event': event['dates']['start']['localDate'],
-                    'venue': event['_embedded']['venues'][0]['name'],
-                    'city': event['_embedded']['venues'][0]['city']['name'],
-                    'url': event['_embedded']['venues'][0]['url'],
-                    'image_url': event['images'][0]['url']
-                }
-                event_data.append(new_event)
-    return event_data
-
-
-#API used here is UK API
-def _generate_ticketmaster_url(artist):
-    modified_artist = artist.replace(' ','%20')
-    ticketmaster_key = {os.environ.get('API_KEY')}
-    return f"https://app.ticketmaster.com/discovery/v2/events.json?keyword={ modified_artist }&countryCode=GB&apikey={ ticketmaster_key}&size=120"
-
-#a = search()
-
-#print(json.dumps(search(), indent=1))

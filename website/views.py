@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, flash, url_for,redirect
+from flask import Blueprint, request, render_template, flash, url_for, redirect
 from flask_login import login_required, current_user
 from .create_db import Note, User
 from . import db
-from .api.events import get_events,get_event_details, get_attraction_details,  get_event_by_id, search
+from .api.events import get_events, get_event_by_id, search
 from .create_note import create_note, add_event
 
 
@@ -14,16 +14,6 @@ views = Blueprint('views', __name__)
 def home():
     return render_template("home.html", user=current_user)
 
-
-@views.route('/')
-def get_event_data():
-    event_details = get_event_details()
-    return event_details
-
-@views.route('/attraction')
-def get_attraction_data():
-    attraction_details = get_attraction_details()
-    return attraction_details
 
 @views.route('/events')
 def events():
@@ -37,9 +27,10 @@ def event(event_id):
     return render_template("event.html", user=current_user, event=event)
 
 
-@views.route('/search', methods=['GET', 'POST'])
+@views.route('/search')
 def search_events():
-    event_data = search()
+    query = request.args.get('query')
+    event_data = search(query) if query else None
     return render_template("search.html", user=current_user, event_data=event_data)
 
 

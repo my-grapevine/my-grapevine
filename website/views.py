@@ -52,7 +52,7 @@ def notes():
     return render_template("notes.html", user=current_user, notes=notes)
 
 
-@views.route('/add_note', methods=['GET', 'POST'])
+@views.route('/add_notes', methods=['GET', 'POST'])
 @login_required
 def add_note():
     form = create_note()

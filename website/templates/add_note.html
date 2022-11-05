@@ -1,51 +1,29 @@
 {% extends "base.html" %}
-{% block title %}Add your Thoughts {% endblock %}
+{% block title %}Add Notes {% endblock %}
 {% block content %}
+<h1 class="text-center"> Share your thoughts and experiences </h1>
   <div class="card mx-auto my-5 text-center" style="max-width: 400px;">
     <div class="card-body">
         {% if current_user.is_authenticated %}
-      <form method="POST">
- <!-- <textarea name="note" id="note" class="form-control"></textarea> -->
-  <br />
-  <div align="center">
-
-        {{ form.hidden_tag() }}
-
-		{{ form.title.label(class="form-label") }}
-
-		{{ form.title(class="form-control") }}
-		<br/>
-
-		{{ form.slug.label(class="form-label") }}
-
-		{{ form.slug(class="form-control") }}
-		<br/>
-
-		{{ form.content.label(class="form-label") }}
-
-		{{ form.content(class="form-control" , rows="10") }}
-		<br/>
-
-		{{ form.submit(type="submit", class="btn btn-primary", value="Submit" )}}
-
-  </div>
-</form>
-
-
-
-
-
-
+        <form method="post">
+        <div class="mb-4"></div>
+            {{ form.hidden_tag() }}
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control") }}
+        <div class="mb-4"></div>
+            {{ form.slug.label(class="form-label") }}
+            {{ form.slug(class="form-control") }}
+		 <div class="mb-4"></div>
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control" , rows="10") }}
+		 <div class="mb-4"></div>
+		    {{ form.submit(type="submit", class="btn btn-primary", value="Submit" )}}
+         <div class="mb-4"></div>
+        </form>
     </div>
-
 {% else %}
     <h2>Must Be Logged In...</h2>
-
-
-
       <p class="card-text mt-3">Sorry, You must be logged in to access this page! <a href="{{ url_for('auth.sign_up') }}" class="link-primary">Sign up instead</a></p>
-
  {% endif %}
-
-</div>
+  </div>
 {% endblock %}

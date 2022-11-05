@@ -2,7 +2,7 @@
 {% block content%}
 
 <form class="d-flex" role="search" method = "GET">
-           <input class="form-control me-2" type="text" name="query" placeholder="Search for Events or Venue" aria-label="Search">
+           <input class="form-control me-2" type="text" name="query" placeholder="Search for Events" aria-label="Search">
         <button class="btn btn-outline-primary" type="submit" name="submit" value="search">Search</button>
        </form>
 
@@ -24,7 +24,7 @@
             </div>
         {% endfor %}
         {% if event_data|length == 0 %}
-            <p class="lead text-center">No results found</p>
+            <p class="lead text-center text-warning">No results found</p>
         {% endif %}
     {% endif %}
     </section>

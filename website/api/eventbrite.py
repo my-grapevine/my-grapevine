@@ -31,3 +31,5 @@ class EventbriteEventManager(EventManager):
             return Event.from_eventbrite_event(event_data[0])
         except (KeyError, IndexError, requests.exceptions.RequestException):
             return
+
+

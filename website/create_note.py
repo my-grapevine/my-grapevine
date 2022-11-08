@@ -19,13 +19,4 @@ def create_note():
         flash('Your thoughts have been saved')
     return form
 
-def add_event():
-    new = UserEvent()
-    if request.method == 'POST':
-        event = request.form.get('event.name')
 
-        db.session.add(new)
-        db.session.commit()
-        flash('The event has been saved', category='success')
-        return redirect(url_for('views.events'))
-    return new

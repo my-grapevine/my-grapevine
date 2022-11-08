@@ -10,14 +10,22 @@ def get_db_connection():
     )
 
 
-with get_db_connection() as connection:
+def create_database():
+    with get_db_connection() as connection:
+        with connection.cursor(dictionary=True) as my_cursor:
+            db_name = os.environ.get('DB_NAME')
+            try:
+                my_cursor.execute(f'CREATE DATABASE {db_name}')
+                my_cursor.execute(f'USE {db_name}')
+            except mysql.connector.errors.Error:
+                my_cursor.execute(f'USE {db_name}')
 
-    with connection.cursor(dictionary=True) as my_cursor:
-        try:
-            my_cursor.execute('CREATE DATABASE website')
-            my_cursor.execute('USE website')
-            print('Success')
-        except:
-            my_cursor.execute('USE website')
-            for db in my_cursor:
-                print('DB in use')
+
+def drop_database():
+    with get_db_connection() as connection:
+        with connection.cursor(dictionary=True) as my_cursor:
+            db_name = os.environ.get('DB_NAME')
+            try:
+                my_cursor.execute(f'DROP DATABASE {db_name}')
+            except mysql.connector.errors.Error:
+                pass

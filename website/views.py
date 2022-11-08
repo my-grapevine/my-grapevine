@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from .create_db import Note, User
 from . import db
 from .api.combined_events import CombinedEventManager
-from .create_note import create_note, add_event
+from .create_note import create_note
 
 
 views = Blueprint('views', __name__)
@@ -45,11 +45,18 @@ def admin():
         flash("Sorry you must be the Admin to access the Admin Page...")
         return redirect(url_for('home.html'))
 
+
 @views.route('/notes')
 @login_required
 def notes():
-    notes = db.session.query(User.first_name, Note.user_id, Note.title, Note.content, Note.date).join(Note, Note.user_id == User.id, isouter=True).all()
-    return render_template("notes.html", user=current_user, notes=notes)
+    noteID = db.session.query(Note.id).all()
+    if noteID == []:
+        flash("Sorry, there is nothing to share at the moment.\n"
+              "Please add your thoughts")
+        return redirect(url_for('views.add_note'))
+    else:
+        notes = db.session.query(User.first_name, Note.user_id, Note.title, Note.content, Note.date).join(Note,Note.user_id == User.id, isouter=True).all()
+        return render_template("notes.html", user=current_user, notes=notes)
 
 
 @views.route('/add_notes', methods=['GET', 'POST'])
@@ -58,9 +65,3 @@ def add_note():
     form = create_note()
     return render_template("add_note.html",user=current_user, form=form)
 
-
-@views.route('/event', methods=['GET', 'POST'])
-@login_required
-def add_event():
-    event = add_event
-    return render_template("events.html", user=current_user, event=event)

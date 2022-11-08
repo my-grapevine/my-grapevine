@@ -43,3 +43,5 @@ class TicketmasterEventManager(EventManager):
             return Event.from_ticketmaster_event(event)
         except (KeyError, requests.exceptions.RequestException):
             return
+
+

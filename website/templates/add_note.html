@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Add Notes {% endblock %}
 {% block content %}
-<h1 class="text-center"> Share your thoughts and experiences </h1>
+<h1 class="text-center text-info"> Share your thoughts and experiences </h1>
   <div class="card mx-auto my-5 text-center" style="max-width: 400px;">
     <div class="card-body">
         {% if current_user.is_authenticated %}
         <form method="post">
-        <div class="mb-4"></div>
+        <div class="mb-4 text-secondary">
             {{ form.hidden_tag() }}
             {{ form.title.label(class="form-label") }}
-            {{ form.title(class="form-control") }}
-        <div class="mb-4"></div>
+            {{ form.title(class="form-control") }}</div>
+        <div class="mb-4 text-secondary">
             {{ form.slug.label(class="form-label") }}
-            {{ form.slug(class="form-control") }}
-		 <div class="mb-4"></div>
+            {{ form.slug(class="form-control") }}</div>
+		 <div class="mb-4 text-secondary">
             {{ form.content.label(class="form-label") }}
-            {{ form.content(class="form-control" , rows="10") }}
+             {{ form.content(class="form-control" , rows="10") }}</div>
 		 <div class="mb-4"></div>
 		    {{ form.submit(type="submit", class="btn btn-primary", value="Submit" )}}
          <div class="mb-4"></div>

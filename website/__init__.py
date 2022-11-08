@@ -2,8 +2,11 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from .db_init import get_db_connection
+from dotenv import find_dotenv, load_dotenv
 
+load_dotenv(find_dotenv())
+
+from .db_init import create_database
 
 db = SQLAlchemy()
 
@@ -11,7 +14,7 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'This is my very secret key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.environ.get('DB_USERNAME')}:{os.environ.get('DB_PASSWORD')}@localhost/website"
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.environ.get('DB_USERNAME')}:{os.environ.get('DB_PASSWORD')}@localhost/{os.environ.get('DB_NAME')}"
 
     from .create_db import User, Note
 
@@ -37,6 +40,3 @@ def create_app():
     return app
 
 
-def create_database():
-    get_db_connection()
-    print('The database is open')

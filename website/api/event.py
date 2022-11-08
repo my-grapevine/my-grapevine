@@ -17,6 +17,8 @@ class Event:
         self.genre = genre
         self.description = description
 
+
+
     @property
     def google_map_url(self):
         if not self.latitude or not self.longitude:
@@ -72,3 +74,4 @@ class Event:
             genre=', '.join(event['attributes']['search']['eventType']),
             description=event['attributes']['subTitle'],
         )
+

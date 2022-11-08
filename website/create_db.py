@@ -8,7 +8,6 @@ from wtforms import StringField
 from wtforms.validators import DataRequired
 
 
-
 Base = declarative_base()
 
 class Note(db.Model, Base):

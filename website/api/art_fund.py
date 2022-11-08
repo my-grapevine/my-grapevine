@@ -32,3 +32,4 @@ class ArtFundEventManager(EventManager):
             return Event.from_art_fund_event(response.json()['data'][0])
         except (KeyError, IndexError, requests.exceptions.RequestException):
             return
+

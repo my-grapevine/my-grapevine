@@ -4,7 +4,7 @@ from website.api.art_fund import ArtFundEventManager
 
 class TestArt_fund(unittest.TestCase):
 
-    def test_get_events_with_valid_input_test_1(self):
+    def test_get_events_with_invalid_input_test_1(self):
         artfund_manager = ArtFundEventManager()
         expected_result = 'To Be Read at Dusk: Dickens, Ghosts and the Supernatural'
         event = artfund_manager.get_events('london')[0]
